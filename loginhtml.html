@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Login & Signup</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #c9d6ff, #e2e2e2);
+    }
+
+    .container {
+      position: relative;
+      width: 850px;
+      max-width: 95%;
+      height: 500px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      overflow: hidden;
+      display: flex;
+      background: #fff;
+    }
+
+    /* Forms side */
+    .form-container {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 50%;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: all 0.6s ease-in-out;
+    }
+
+    .sign-in-container {
+      left: 0;
+      z-index: 2;
+    }
+
+    .sign-up-container {
+      left: 0;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .container.active .sign-in-container {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+
+    .container.active .sign-up-container {
+      transform: translateX(100%);
+      opacity: 1;
+      z-index: 3;
+    }
+
+    form h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    button {
+      border: none;
+      border-radius: 20px;
+      padding: 12px 40px;
+      background: #6a11cb;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    /* Overlay purple curved block */
+    .overlay-container {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 150px 0 0 150px; /* curved border */
+      text-align: center;
+      padding: 40px;
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .overlay-container h1 {
+      font-size: 26px;
+      margin-bottom: 15px;
+    }
+
+    .overlay-container p {
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .overlay-container button {
+      background: transparent;
+      border: 2px solid #fff;
+      border-radius: 20px;
+    }
+
+    /* Move overlay when active */
+    .container.active .overlay-container {
+      transform: translateX(-100%);
+      border-radius: 0 150px 150px 0; /* flip curve */
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+      .form-container, .overlay-container {
+        width: 100%;
+        position: relative;
+        border-radius: 0;
+        transform: none !important;
+      }
+      .overlay-container {
+        padding: 20px;
+        border-radius: 0 0 20px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="container">
+    <!-- Sign In -->
+    <div class="form-container sign-in-container">
+      <form action="#">
+        <h1>Sign In</h1>
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+        <a href="#">Forgot your password?</a>
+        <button type="button">Sign In</button>
+      </form>
+    </div>
+
+    <!-- Sign Up -->
+    <div class="form-container sign-up-container">
+      <form action="#">
+        <h1>Create Account</h1>
+        <input type="text" placeholder="Name" required />
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+        <button type="button">Sign Up</button>
+      </form>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay-container" id="overlay">
+      <div class="overlay-content">
+        <h1>Hello, Friend!</h1>
+        <p>Register with your personal details to use all site features</p>
+        <button id="toggleBtn">Sign Up</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('container');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const overlay = document.getElementById('overlay');
+
+    let showSignUp = false;
+
+    toggleBtn.addEventListener('click', () => {
+      showSignUp = !showSignUp;
+      if (showSignUp) {
+        container.classList.add('active');
+        toggleBtn.textContent = "Sign In";
+        overlay.querySelector("h1").textContent = "Welcome Back!";
+        overlay.querySelector("p").textContent = "To keep connected, please login with your info";
+      } else {
+        container.classList.remove('active');
+        toggleBtn.textContent = "Sign Up";
+        overlay.querySelector("h1").textContent = "Hello, Friend!";
+        overlay.querySelector("p").textContent = "Register with your personal details to use all site features";
+      }
+    });
+  </script>
+
+</body>
+</html>
